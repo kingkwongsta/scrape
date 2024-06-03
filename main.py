@@ -16,16 +16,16 @@ if __name__ == "__main__":
         html_content = await ascrape_playwright(url, tags)
         print("Extracting content with LLM")
 
-        # html_content_fits_context_window_llm = html_content[:token_limit]
-        # extracted_content = extract(content=html_content_fits_context_window_llm, **kwargs,)
-
-        # pprint.pprint(extracted_content)
-        pprint.pprint(html_content)
+        html_content_fits_context_window_llm = html_content[:token_limit]
+        extracted_content = extract(content=html_content_fits_context_window_llm, **kwargs,)
+        pprint.pprint(extracted_content)
+        
+        # print(html_content)
 
         
     asyncio.run(scrape_with_playwright(
         url=url,
-        tags=["span"],
+        tags=["section"],
         schema_pydantic=PokemonCards
     ))
     
