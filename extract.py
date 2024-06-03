@@ -9,7 +9,7 @@ load_dotenv()
 
 openai_api_key = os.getenv('OPENAI_API_KEY')
 
-llm = ChatOpenAI(temperature=0, model="gpt-3.5-turbo-0613",
+llm = ChatOpenAI(temperature=0, model="gpt-3.5-turbo-0125",
                  openai_api_key=openai_api_key)
 
 

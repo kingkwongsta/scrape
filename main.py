@@ -4,7 +4,7 @@
 import asyncio
 import pprint
 
-from ai_extractor import extract
+from extract import extract
 from scrape import ascrape_playwright
 
 if __name__ == "__main__":
