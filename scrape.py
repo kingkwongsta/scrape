@@ -83,3 +83,13 @@ async def ascrape_playwright(url, tags: list[str] = ["h1", "h2", "h3", "span"]) 
             results = f"Error: {e}"
         await browser.close()
     return results
+
+    # TESTING
+if __name__ == "__main__":
+    url = "https://www.patagonia.ca/shop/new-arrivals"
+
+    async def scrape_playwright():
+        results = await ascrape_playwright(url)
+        print(results)
+
+    pprint.pprint(asyncio.run(scrape_playwright()))
