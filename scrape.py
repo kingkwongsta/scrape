@@ -2,7 +2,7 @@ import asyncio
 import pprint
 
 from bs4 import BeautifulSoup
-from playwright import async_playwright
+from playwright.async_api import async_playwright
 def remove_unwanted_tags(html_content, unwanted_tags=["script", "style"]):
     """
     This removes unwanted HTML tags from the given HTML content.

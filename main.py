@@ -1,4 +1,5 @@
 # .venv\Scripts\activate
+# in docker make sure to run playwright install
 
 import asyncio
 import pprint
@@ -13,12 +14,3 @@ if __name__ == "__main__":
 
     asyncio.run(scrape_with_playwright())
     
-    # TESTING
-if __name__ == "__main__":
-    url = "https://www.patagonia.ca/shop/new-arrivals"
-
-    async def scrape_playwright():
-        results = await ascrape_playwright(url)
-        print(results)
-
-    pprint.pprint(asyncio.run(scrape_playwright()))
