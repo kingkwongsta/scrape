@@ -2,3 +2,4 @@ poetry
 playwright
 beautifulsoup4
 langchain
+python-dotenv
