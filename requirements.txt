@@ -1,5 +1,6 @@
+python-dotenv
 poetry
 playwright
 beautifulsoup4
 langchain
-python-dotenv
+langchain_community
