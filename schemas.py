@@ -2,8 +2,7 @@ from pydantic import BaseModel
 from langchain_core.pydantic_v1 import BaseModel, Field
 
 class Pokemon(BaseModel):
-    setup: str = Field(description="The setup of the joke")
-    punchline: str = Field(description="The punchline to the joke")
+    card_name: str = Field(description="The name of the card")
 class PokemonCards(BaseModel):
     card_name: str
     # card_list_from: float

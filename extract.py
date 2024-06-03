@@ -35,6 +35,7 @@ from dotenv import load_dotenv
 from langchain.chains import (create_extraction_chain,
                               create_extraction_chain_pydantic)
 from langchain_openai.chat_models import ChatOpenAI
+from schemas import Pokemon
 
 load_dotenv()
 
@@ -51,10 +52,14 @@ def extract(content: str, **kwargs):
 
     # This part just formats the output from a Pydantic class to a Python dictionary for easier reading. Feel free to remove or tweak this.
     if 'schema_pydantic' in kwargs:
-        response = create_extraction_chain_pydantic(
-            pydantic_schema=kwargs["schema_pydantic"], llm=llm).run(content)
-        response_as_dict = [item.dict() for item in response]
+        # response = create_extraction_chain_pydantic(
+        #     pydantic_schema=kwargs["schema_pydantic"], llm=llm).run(content)
+        # response_as_dict = [item.dict() for item in response]
+        # return response_as_dict
+        structured_llm = llm.with_structured_output(Pokemon)
+        structured_llm.invoke(content)
 
-        return response_as_dict
+        return structured_llm
+        
     else:
         return create_extraction_chain(schema=kwargs["schema"], llm=llm).run(content)
