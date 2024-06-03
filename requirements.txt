@@ -3,4 +3,5 @@ poetry
 playwright
 beautifulsoup4
 langchain
-langchain_community
+openai
+langchain_openai
