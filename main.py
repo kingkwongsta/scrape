@@ -6,6 +6,7 @@ import pprint
 
 from extract import extract
 from scrape import ascrape_playwright
+from schemas import PokemonCards
 
 if __name__ == "__main__":
     token_limit = 16385
@@ -22,5 +23,9 @@ if __name__ == "__main__":
         pprint.pprint(extracted_content)
 
         
-    asyncio.run(scrape_with_playwright())
+    asyncio.run(scrape_with_playwright(
+        url=url,
+        tags=["span"],
+        schema_pydantic=PokemonCards
+    ))
     
