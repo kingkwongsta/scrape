@@ -135,8 +135,6 @@ USER_AGENTS = [
 ]
 
 def extract_card_data(html_content):
-    soup = BeautifulSoup(html_content, 'html.parser')
-
     card_name = soup.select_one('.product-card__title.truncate').get_text(strip=True)
     card_list_from = float(soup.select_one('.inventory__price-with-shipping').get_text(strip=True)[1:])
     card_market_price = float(soup.select_one('.product-card__market-price--value').get_text(strip=True)[1:])
