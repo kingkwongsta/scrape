@@ -15,13 +15,13 @@ if __name__ == "__main__":
     
     async def scrape_with_playwright(url: str, tags, **kwargs):
         html_content = await ascrape_playwright(url, tags)
-        print("Extracting content with LLM")
+        # print("Extracting content with LLM")
 
-        html_content_fits_context_window_llm = html_content[:token_limit]
-        extracted_content = extract(content=html_content_fits_context_window_llm, **kwargs,)
-        pprint.pprint(extracted_content)
+        # html_content_fits_context_window_llm = html_content[:token_limit]
+        # extracted_content = extract(content=html_content_fits_context_window_llm, **kwargs,)
+        # pprint.pprint(extracted_content)
         
-        # print(html_content)
+        print(html_content)
 
     asyncio.run(scrape_with_playwright(
         url=url,

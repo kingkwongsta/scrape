@@ -87,8 +87,9 @@ def remove_unessesary_lines(content):
 import random
 import time
 
-async def ascrape_playwright(url, tags: list[str] = ["h1", "h2", "h3", "span", "section"]) -> str:
-# async def ascrape_playwright(url, tags):
+import json
+
+async def ascrape_playwright(url, tags: list[str] = ["h1", "h2", "h3", "span", "section"]) -> dict:
     """
     An asynchronous Python function that uses Playwright to scrape
     content from a given URL, extracting specified HTML tags and removing unwanted tags and unnecessary
@@ -118,10 +119,10 @@ async def ascrape_playwright(url, tags: list[str] = ["h1", "h2", "h3", "span", "
                 page_source), tags))
             print("Content scraped")
         except Exception as e:
-            results = f"Error: {e}"
+            results = {"error": str(e)}
         finally:
             await browser.close()
-    return results
+    return json.loads(results)
 
 # List of common user agents
 USER_AGENTS = [
