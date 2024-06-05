@@ -62,7 +62,42 @@ def remove_unessesary_lines(content):
     return cleaned_content
 
 import random
-async def ascrape_playwright(url, tags: list[str] = ["h1", "h2", "h3", "span", "section"]) -> str:
+import time
+# async def ascrape_playwright(url, tags: list[str] = ["h1", "h2", "h3", "span", "section"]) -> str:
+#     print("Started scraping...")
+#     results = ""
+#     async with async_playwright() as p:
+#         browser = await p.chromium.launch(headless=False)
+#         try:
+#             context = await browser.new_context(
+#                 user_agent=random.choice(USER_AGENTS),  # Use a random user agent
+#                 bypass_csp=True,  # Bypass Content Security Policy (CSP)
+#                 ignore_https_errors=True  # Ignore HTTPS errors
+#             )
+
+#             page = await context.new_page()
+#             await page.goto(url, wait_until="networkidle")  # Wait for page to fully load
+
+#             # Introduce a random delay to mimic human behavior
+#             delay = random.uniform(2, 5)
+#             time.sleep(delay)
+
+#             page_source = await page.content()
+
+#             soup = BeautifulSoup(page_source, "html.parser")
+#             section = soup.find("section", class_="search-results")
+#             if section:
+#                 results = remove_unessesary_lines(extract_tags(remove_unwanted_tags(str(section)), tags))
+#             else:
+#                 results = "No <section class='search-results'> element found on the page."
+
+#             print("Content scraped")
+#         except Exception as e:
+#             results = f"Error: {e}"
+#         await browser.close()
+#     return results
+
+async def ascrape_playwright(url, tags):
     print("Started scraping...")
     results = ""
     async with async_playwright() as p:
@@ -75,17 +110,29 @@ async def ascrape_playwright(url, tags: list[str] = ["h1", "h2", "h3", "span", "
             )
 
             page = await context.new_page()
-            await page.goto(url, wait_until="networkidle")  # Wait for page to fully load
+            await page.goto(url, wait_until="networkidle")
 
-            # Click the button to sort by price
-            await page.click('.tcg-input-select__trigger')  # Click the button
+            # Introduce a random delay to mimic human behavior
+            delay = random.uniform(2, 5)
+            time.sleep(delay)
 
-            # Rest of your code...
+            page.get_by_role("button", name="Best Match").click().highlight()
 
-            await browser.close()
+            page_source = await page.content()
+
+            soup = BeautifulSoup(page_source, "html.parser")
+            section = soup.find("section", class_="search-results")
+            if section:
+                results = remove_unessesary_lines(extract_tags(remove_unwanted_tags(str(section)), tags))
+            else:
+                results = "No <section class='search-results'> element found on the page."
+
+            print("Content scraped")
         except Exception as e:
             results = f"Error: {e}"
+        await browser.close()
     return results
+
 
 # List of common user agents
 USER_AGENTS = [
