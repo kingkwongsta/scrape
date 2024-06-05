@@ -112,9 +112,20 @@ async def ascrape_playwright(url, tags):
             page = await context.new_page()
             await page.goto(url, wait_until="networkidle")
 
+            # Click/select the div with class="search-toolbar__sorting" to trigger a search
+            # await page.locator('.search-toolbar__sorting').click()
+            number_of_elements = await page.locator('.search-toolbar__sorting').count()
+            element = await page.locator('.search-toolbar__sorting')
+            visible = await page.locator('.search-toolbar__sorting').is_visible()
+            enabled = await page.locator('.search-toolbar__sorting').is_enabled()
+            print("number_of_elements: ", number_of_elements)
+            print("element: ", element)
+            print("visible: ", visible)
+            print("enabled: ", enabled)
+            
             # Introduce a random delay to mimic human behavior
             delay = random.uniform(2, 5)
-            time.sleep(delay)
+            await page.wait_for_timeout(delay * 1000)
 
             page_source = await page.content()
 
