@@ -116,8 +116,6 @@ async def ascrape_playwright(url, tags):
             delay = random.uniform(2, 5)
             time.sleep(delay)
 
-            page.get_by_role("button", name="Best Match").click().highlight()
-
             page_source = await page.content()
 
             soup = BeautifulSoup(page_source, "html.parser")
