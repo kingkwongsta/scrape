@@ -114,14 +114,15 @@ async def ascrape_playwright(url, tags):
 
             # Click/select the div with class="search-toolbar__sorting" to trigger a search
             # await page.locator('.search-toolbar__sorting').click()
+            await page.locator('.search-toolbar__sorting').first.is_visible()
             number_of_elements = await page.locator('.search-toolbar__sorting').count()
             element = await page.locator('.search-toolbar__sorting')
-            visible = await page.locator('.search-toolbar__sorting').is_visible()
-            enabled = await page.locator('.search-toolbar__sorting').is_enabled()
-            print("number_of_elements: ", number_of_elements)
-            print("element: ", element)
-            print("visible: ", visible)
-            print("enabled: ", enabled)
+            visible = await element.is_visible()
+            enabled = await element.is_enabled()
+            print("number_of_elements:", number_of_elements)
+            print("element:", element)
+            print("visible:", visible)
+            print("enabled:", enabled)
             
             # Introduce a random delay to mimic human behavior
             delay = random.uniform(2, 5)
