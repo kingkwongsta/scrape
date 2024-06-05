@@ -60,34 +60,8 @@ def remove_unessesary_lines(content):
     cleaned_content = "".join(deduped_lines)
 
     return cleaned_content
-# async def ascrape_playwright(url, tags: list[str] = ["h1", "h2", "h3", "span"]) -> str:
-#     """
-#     An asynchronous Python function that uses Playwright to scrape
-#     content from a given URL, extracting specified HTML tags and removing unwanted tags and unnecessary
-#     lines.
-#     """
-#     print("Started scraping...")
-#     results = ""
-#     async with async_playwright() as p:
-#         browser = await p.chromium.launch(headless=False)
-#         try:
-#             page = await browser.new_page()
-#             await page.goto(url)
-
-#             page_source = await page.content()
-
-#             results = remove_unessesary_lines(extract_tags(remove_unwanted_tags(
-#                 page_source), tags))
-#             print("Content scraped")
-#         except Exception as e:
-#             results = f"Error: {e}"
-#         await browser.close()
-#     return results
 
 import random
-import time
-import json
-
 async def ascrape_playwright(url, tags: list[str] = ["h1", "h2", "h3", "span", "section"]) -> str:
     print("Started scraping...")
     results = ""
@@ -104,26 +78,13 @@ async def ascrape_playwright(url, tags: list[str] = ["h1", "h2", "h3", "span", "
             await page.goto(url, wait_until="networkidle")  # Wait for page to fully load
 
             # Click the button to sort by price
-            await page.click('.sort-dropdown')  # Click the "Sort" button
-            await page.select_option('.sort-dropdown', 'value="price_desc"')  # Click the "Price: High to Low" option
+            await page.click('.tcg-input-select__trigger')  # Click the button
 
-            # Introduce a random delay to mimic human behavior
-            delay = random.uniform(2, 5)
-            await page.wait_for_timeout(delay * 1000)  # Convert seconds to milliseconds
+            # Rest of your code...
 
-            page_source = await page.content()
-
-            soup = BeautifulSoup(page_source, "html.parser")
-            section = soup.find("section", class_="search-results")
-            if section:
-                results = remove_unessesary_lines(extract_tags(remove_unwanted_tags(str(section)), tags))
-            else:
-                results = "No <section class='search-results'> element found on the page."
-
-            print("Content scraped")
+            await browser.close()
         except Exception as e:
             results = f"Error: {e}"
-        await browser.close()
     return results
 
 # List of common user agents
