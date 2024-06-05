@@ -21,7 +21,7 @@ if __name__ == "__main__":
         # extracted_content = extract(content=html_content_fits_context_window_llm, **kwargs,)
         # pprint.pprint(extracted_content)
         
-        print(html_content)
+        pprint.pprint(html_content)
 
     asyncio.run(scrape_with_playwright(
         url=url,

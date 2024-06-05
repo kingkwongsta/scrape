@@ -86,15 +86,9 @@ def remove_unessesary_lines(content):
 
 import random
 import time
-
 import json
 
-async def ascrape_playwright(url, tags: list[str] = ["h1", "h2", "h3", "span", "section"]) -> dict:
-    """
-    An asynchronous Python function that uses Playwright to scrape
-    content from a given URL, extracting specified HTML tags and removing unwanted tags and unnecessary
-    lines.
-    """
+async def ascrape_playwright(url, tags: list[str] = ["h1", "h2", "h3", "span", "section"]) -> str:
     print("Started scraping...")
     results = ""
     async with async_playwright() as p:
@@ -109,20 +103,28 @@ async def ascrape_playwright(url, tags: list[str] = ["h1", "h2", "h3", "span", "
             page = await context.new_page()
             await page.goto(url, wait_until="networkidle")  # Wait for page to fully load
 
+            # Click the button to sort by price
+            await page.click('.sort-dropdown')  # Click the "Sort" button
+            await page.select_option('.sort-dropdown', 'value="price_desc"')  # Click the "Price: High to Low" option
+
             # Introduce a random delay to mimic human behavior
             delay = random.uniform(2, 5)
-            time.sleep(delay)
+            await page.wait_for_timeout(delay * 1000)  # Convert seconds to milliseconds
 
             page_source = await page.content()
 
-            results = remove_unessesary_lines(extract_tags(remove_unwanted_tags(
-                page_source), tags))
+            soup = BeautifulSoup(page_source, "html.parser")
+            section = soup.find("section", class_="search-results")
+            if section:
+                results = remove_unessesary_lines(extract_tags(remove_unwanted_tags(str(section)), tags))
+            else:
+                results = "No <section class='search-results'> element found on the page."
+
             print("Content scraped")
         except Exception as e:
-            results = {"error": str(e)}
-        finally:
-            await browser.close()
-    return json.loads(results)
+            results = f"Error: {e}"
+        await browser.close()
+    return results
 
 # List of common user agents
 USER_AGENTS = [
